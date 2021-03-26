@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".M0500">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#676262"
+        android:orientation="vertical"
+        android:padding="@dimen/padding">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding"
+            android:background="#FA98E1DB">
+
+            <TextView
+                android:id="@+id/m0500_t001"
+                android:layout_width="120sp"
+                android:layout_height="wrap_content"
+                android:background="#00BCD4"
+                android:text="@string/m0500_t001"
+                android:textColor="@color/Navy"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/m0500_e001"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#4CAF50"
+                android:ems="10"
+                android:gravity="end"
+                android:hint="@string/hint"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal"
+                android:textSize="24sp" />
+        </TableRow>
+
+        <Button
+            android:id="@+id/m0500_b001"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/Yellow"
+            android:text="@string/執行匯率換算"
+            android:textColor="@color/Red"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding">
+
+            <TextView
+                android:id="@+id/m0500_t002"
+                android:layout_width="120sp"
+                android:layout_height="wrap_content"
+                android:background="#00BCD4"
+                android:text="@string/lb"
+                android:textColor="@color/Navy"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/m0500_t003"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#4CAF50"
+                android:ems="10"
+                android:gravity="end"
+                android:text="@string/_0"
+                android:textSize="24sp" />
+
+        </TableRow>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="50dp"
+            android:gravity="end"
+            android:text="@string/myname"
+            android:textColor="@color/Navy"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
