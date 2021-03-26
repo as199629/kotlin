@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/m1003_r001"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back00"
+    android:padding="@dimen/padding">
+
+    <TextView
+        android:id="@+id/m1003_t001"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Yellow"
+        android:gravity="center"
+        android:text="@string/m1003_t001"
+        android:textColor="@color/Fuchsia"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/m1003_t002"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="45dp"
+        android:background="@color/Aqua"
+        android:text="@string/m1003_t002"
+        android:textColor="@color/Gray"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/m1003_t003"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/m1003_t002"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="-35dp"
+        android:layout_toEndOf="@+id/m1003_t002"
+        android:background="@color/Aqua"
+        android:text="@string/m1003_t003"
+        android:textColor="@color/Gray"
+        android:textSize="24sp" />
+
+    <ImageSwitcher
+        android:id="@+id/m1003_c001"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/m1003_b002"
+        android:layout_marginTop="-83dp"
+        android:layout_marginEnd="100dp"
+        android:layout_toStartOf="@+id/m1003_b002"
+        android:background="@android:drawable/btn_star_big_off"
+        android:contentDescription="@string/m1003_c001"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/scissors" />
+
+    <ImageButton
+        android:id="@+id/m1003_b001"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/m1003_t003"
+        android:layout_alignEnd="@+id/m1003_t003"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/circle_shape"
+        android:contentDescription="@string/m1003_b001"
+        android:scaleType="centerInside"
+        android:src="@drawable/scissors"
+        android:textSize="18sp" />
+
+    <ImageButton
+        android:id="@+id/m1003_b002"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/m1003_b001"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="-80dp"
+        android:layout_toStartOf="@+id/m1003_b001"
+        android:background="@drawable/ring"
+        android:contentDescription="@string/m1003_b002"
+        android:scaleType="centerInside"
+        android:src="@drawable/stone"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/m1003_b004"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/m1003_c001"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="100dp"
+        android:layout_toStartOf="@+id/m1003_b003"
+        android:text="@string/m1003_b004" />
+
+    <Button
+        android:id="@+id/m1003_b005"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/m1003_b004"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/m1003_b005" />
+
+    <Button
+        android:id="@+id/m1003_b006"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/m1003_b004"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/m1003_b005"
+        android:text="@string/m1003_b006" />
+
+    <ImageButton
+        android:id="@+id/m1003_b003"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/m1003_b002"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="-80dp"
+        android:layout_toStartOf="@+id/m1003_b002"
+        android:background="@drawable/shape_ring"
+        android:contentDescription="@string/m1003_b003"
+        android:scaleType="centerInside"
+        android:src="@drawable/net" />
+
+    <TextView
+        android:id="@+id/m1003_t004"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="70dp"
+        android:background="@color/Gray"
+        android:text="@string/m1003_t004"
+        android:textColor="@color/Red"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/m1003_t005"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="30dp"
+        android:background="@color/white"
+        android:text="@string/m1003_t005"
+        android:textColor="@color/black"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/m1003_t2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:gravity="end"
+        android:text="@string/myName"
+        android:textColor="@color/Aqua"
+        android:textSize="24sp" />
+</RelativeLayout>

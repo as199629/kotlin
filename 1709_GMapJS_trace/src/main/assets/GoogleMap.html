@@ -1,0 +1,125 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <meta http-equiv="Content-Language" content="zh-tw" />
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <title>17-8GoogleMap-導航</title>
+    <style type="text/css">
+   html {
+              height: 100%
+        }
+        body {
+        height: 100%;
+        margin 0;
+        padding:0
+        }
+        #map_canvas {
+        height: 100%
+        margin 0;
+        padding:0
+        }
+        </style>
+
+
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTLdfE_bML8GN9jB62Td_wu2T3trCpmGA&callback=initMap"></script>
+    <script  type="text/javascript">
+        var map;
+        var lat = AndroidFunction.GetLat();  //緯度 GetLat() 是java class 傳過來的值
+        var lon = AndroidFunction.GetLon();  //經度GetLon() 是java class 傳過來.
+        var jcontent=AndroidFunction.Getjcontent(); //水滴標記的title Getjcontent() 是java class 傳來.
+        var image = 'c00.png';//image變數指向圖示檔案，圖示檔案請放在相同目錄
+         var navon = AndroidFunction.Navon();
+        var start = AndroidFunction.Getstart();  //"24.1440738,120.6846080";
+        var end = AndroidFunction.Getend();  //"24.1835421,120.6108795"
+
+ //----------------------------------------------
+  function initialize() {
+    var mapOptions = {
+      zoom : 16,//地圖比例
+        center : new google.maps.LatLng(lat, lon),//地圖預設點
+      mapTypeId : google.maps.MapTypeId.ROADMAP
+    //地圖類型
+    //ROADMAP 一般地圖
+    //HYBRID 衛星地圖
+    //ATELLITE  衛星地圖(無顯示街道)
+    //TERRAIN 地理地圖
+    };
+    map = new google.maps.Map(document.getElementById('map_canvas'),
+        mapOptions);
+    mark();
+     if (navon == "on") {
+        RoutePlanning();
+        }
+  }
+
+  //標籤
+  function mark() {
+    var myLatLng = new google.maps.LatLng(lat, lon);
+    var myMarker = new google.maps.Marker({
+      position : myLatLng,
+      map : map,
+            draggable:true,
+            icon: image //指定標示圖案為image
+    });
+
+    //訊息視窗
+    var infowindow = new google.maps.InfoWindow({
+    content : "<font color=red><b>"+jcontent+"</b></font><br>緯度:"+lat+"<br>經度:"+lon
+    });
+    google.maps.event.addListener(myMarker, 'click', function() {
+      infowindow.open(map, myMarker);
+        myMarker.setAnimation(google.maps.Animation.DROP);
+    });
+  }
+  //
+  //路線規劃Navigation
+  var directionsDisplay;
+  var directionsService = new google.maps.DirectionsService();//路線資訊回傳
+
+  function RoutePlanning() {
+    directionsDisplay = new google.maps.DirectionsRenderer();
+    directionsDisplay.setMap(map);
+
+    var request = {
+      origin : start,
+      destination : end,
+      travelMode : google.maps.DirectionsTravelMode.DRIVING
+
+      //google.maps.TravelMode.DRIVING (預設) 表示使用道路網的標準行車路線。
+      //google.maps.TravelMode.BICYCLING 要求使用單車道及專用道路的單車路線。
+      //google.maps.TravelMode.TRANSIT 要求使用大眾運輸路線的導航。
+      //google.maps.TravelMode.WALKING 要求使用人行道與騎樓 的步行路線。
+
+    };
+
+    directionsService.route(request, function(response, status) {
+      if (status == google.maps.DirectionsStatus.OK) {
+        directionsDisplay.setDirections(response);
+      }
+    });
+ }
+  //地圖以給予的座標為中心，即移動地圖至給定位的座標
+  function centerAt(latitude, longitude){
+    myLatlng = new google.maps.LatLng(latitude,longitude);
+    map.panTo(myLatlng);
+    var marker = new google.maps.Marker({
+    position: new google.maps.LatLng(latitude,longitude),
+    map: map,
+    icon: 'c0b.png'
+    });
+  }
+
+  function deleteOverlays() {
+    directionsDisplay.setMap(null);
+    start=AndroidFunction.Getstart();
+    RoutePlanning();
+  }
+
+</script>
+</head>
+<body onload="initialize()">
+<div id="map_canvas" style="width:100%; height:97%"></div>
+</body>
+</html>

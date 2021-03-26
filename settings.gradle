@@ -1,0 +1,6 @@
+include ':17-09c GMapJS-range'
+include ':1709_GMapJS_trace'
+include ':1004_GameonActivityResult'
+include ':0501_Marrisug'
+include ':0500f_MoneyChange'
+rootProject.name = "CH05-Layout"

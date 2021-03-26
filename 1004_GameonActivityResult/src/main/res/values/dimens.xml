@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding">15dp</dimen>
+    <dimen name="sm10dp">10dp</dimen>
+    <dimen name="margin_top">15dp</dimen>
+    <dimen name="margin_left">15dp</dimen>
+</resources>

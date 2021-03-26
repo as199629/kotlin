@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Aqua"
+    android:orientation="vertical"
+    android:padding="@dimen/padding">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/li_t001"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/edtCountSet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Yellow"
+        android:hint="@string/li_h001"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/li_t002"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/edtCountPlayerWin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Yellow"
+        android:hint="@string/li_h001"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/li_t003"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/edtCountComWin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Yellow"
+        android:hint="@string/li_h001"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/li_t004"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/edtCountDraw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Yellow"
+        android:hint="@string/li_h001"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btnBackToGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top"
+        android:background="@android:drawable/btn_default"
+        android:text="@string/li_b001"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+</LinearLayout>

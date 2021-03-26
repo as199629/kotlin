@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- 載入osm套件 -->
+    <link rel="stylesheet" href="css/MarkerCluster.css"><!-- 載入多點集合Mark套件 -->
+    <title>口罩地圖</title>
+    <style>
+        /*.marker-cluster-small{
+            background-color: #FC0606
+        }      正方形*/
+        .marker-cluster-small div{
+            background-color: rgba(10,67,148,0.6);
+        }/*圓形*/
+        /*.marker-cluster-medium{
+            background-color: #C90DCA
+        }*/
+        .marker-cluster-medium div{
+            background-color: rgba(255,0,0,0.8);
+        }
+        /*.marker-cluster-large{
+            background-color: #14CEC0
+        }*/
+        .marker-cluster-large div{
+            background-color: #41FF18
+        }
+        /*字型設定*/
+        .marker-cluster div{
+            width: 30px;
+            height: 30px;
+            margin-left:5px;
+            margin-top:5px;
+
+            text-align: center;
+            border-radius: 15px;
+            font: 15px "Helvetica Neue", Arial, Helvetica, sans-serif;
+        }
+        .marker-cluster span{
+            line-height: 30px;
+        }
+        .bg-cover{
+            background-position: center center;
+            background-size: cover;
+        }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">口罩地圖</a>
+        <p> </p>
+        <p> </p>
+         <i class=" font-weight-bold text-light ml-auto">縣市</i>
+        <select class="selectpicker ml-2" id="region_list01">
+            <option selected>-縣市-</option>
+        </select>
+         <a class=" font-weight-bold text-light ml-3">鄉(鎮區)</div>
+        <select class="selectpicker ml-2" id="region_list02">
+           <option selected>-鄉鎮-</option>
+        </select>
+        <a class="ml-5 text-white"><img src="img/marker-icon-gold.png">口罩>1500</a>
+        <a class="ml-2 text-white"><img src="img/marker-icon-black.png">1500>口罩>1000</a>
+        <a class="ml-2 text-white"><img src="img/marker-icon-red.png">1000>口罩</a>
+    </nav>
+    <div class="container-fluid">
+        <div class="row" style="height: 92vh">
+            <div class="col-md-3 bg-info bg-cover" style="height:94vh;background-image: url(img/23.jpg);">
+                <div class="row mt-3">
+                    <div id="loading" class="h3 text-light mt-2 text-center">
+                        載入中 請稍等...
+                        <img src="img/gif2.gif" class="bg-cover mt-3" alt="">
+                        <img src="img/gif3.gif" class="bg-cover mt-3" alt="">
+                    </div>
+                    <ul class="list-group region_list w-100 mx-2" style="height: 91vh;overflow: auto;" id="mask_group">
+                        <!-- <li class="list-group-item">
+                            <p class="font-weight-bold">XX藥局</p>
+                            <p class="h4">地址:XXXXXXXXX</p>
+                            <p class="h4">電話:XXXXXXXXX</p>
+                            <p>成人口罩:XX  兒童口罩:XX</p>
+                        </li>
+                        <li class="list-group-item">
+                            <p class="font-weight-bold">XX藥局</p>
+                            <p class="h4">地址:XXXXXXXXX</p>
+                            <p class="h4">電話:XXXXXXXXX</p>
+                            <p>成人口罩:XX  兒童口罩:XX</p>
+                        </li>  -->                  
+                    </ul>                                       
+                </div>
+            </div>
+            <div class="col-md-9 bg-secondary">
+                <div id="map" style="height:94vh;background-image: url(img/27.jpg);" class="bg-cover"></div>
+            </div>          
+        </div>          
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="js/CityCountyData.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script><!-- 載入osm套件 -->
+    <script src="js/leaflet.markercluster.js"></script><!-- 載入多點集合Mark套件 -->
+    <script src="js/leaflet-color-markers.js"></script><!-- 載入Mark color套件 -->
+
+    <script>
+    	var select_city;//選取的縣市
+    	var select_town;//選取的鄉鎮區
+    	var select_town_data;//某縣市所有的鄉鎮區資料Array
+    	var maskdata;//記錄第三方 健保局的口罩資料
+        var curLat,curLng;//使用者目前位置
+        var map;
+        var markers;
+
+        //取得使用者位置
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            
+        }
+        
+        function showPosition(position) {
+            curLat = position.coords.latitude;
+            curLng = position.coords.longitude;
+            
+            map.panTo([curLat,curLng])
+            L.marker([curLat,curLng],{icon:orgIcon}).addTo(map).bindPopup("<h5>目前位置</h5>").openPopup();
+            // console.log("Lat:"+curLat+"Lng:"+curLng);
+        }
+
+
+       
+        var orgIcon = new L.Icon({
+          iconUrl: 'img/marker-icon-orange.png',
+          shadowUrl: 'img/marker-shadow.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41]
+        });
+
+        var blackIcon = new L.Icon({
+          iconUrl: 'img/marker-icon-black.png',
+          shadowUrl: 'img/marker-shadow.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41]
+        });
+
+        var goldIcon = new L.Icon({
+          iconUrl: 'img/marker-icon-gold.png',
+          shadowUrl: 'img/marker-shadow.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41]
+        });
+
+        var redIcon = new L.Icon({
+          iconUrl: 'img/marker-icon-red.png',
+          shadowUrl: 'img/marker-shadow.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41]
+        });
+
+    	$('#region_list01').prop('disabled',true);
+    	$('#region_list02').prop('disabled',true);
+    	$(function(){
+            //產生位置地圖
+            map = L.map('map').setView([0,0],18);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            L.marker([0,0],{icon:redIcon}).addTo(map).bindPopup("<h5>不給位置，所以掉在海裡</h5>").openPopup();
+
+            markers = new L.MarkerClusterGroup().addTo(map);
+            //載入第三方、健保局口罩資料
+    		$.ajax({
+    			type:"get",
+    			url:"https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json",
+    			dataType:"json",
+                async:false,
+    			success:function(data){
+    				console.log(data);
+    				maskdata = data.features;
+                    //------讀取中不讓使用者點選
+    				$('#region_list01').prop('disabled',false);
+    				$('#region_list02').prop('disabled',false);
+                    $("#loading").hide();
+                    //------讀取中不讓使用者點選
+    				// console.log(maskdata);
+    			},
+    			error:function(){
+    				alert("error");
+    			}
+    		})
+
+    		// console.log(city);
+    		city.forEach(function(item){
+    			// console.log(item.CityName);
+    			var strHTML = '<option value="'+item.CityName+'">'+item.CityName+'</option>';
+    			$("#region_list01").append(strHTML);
+    		});
+
+    		//監聽縣市select
+    		$("#region_list01").change(function(item){
+    			// console.log($(this).val());
+    			select_city = $(this).val();
+    			city.find(function(item){
+    				if(item.CityName == select_city){
+    					select_town_data = item.AreaList;  					
+    				}
+    			});
+    			// console.log(select_town_data);
+    			$("#region_list02").empty();
+    			$("#region_list02").html('<option selected>-鄉鎮-</option>');//讓 鄉鎮 出現在第一行(不能寫在for迴圈)
+    			select_town_data.forEach(function(item){
+	    			var strHTML = '<option value="'+item.AreaName+'">'+item.AreaName+'</option>';
+	    			$("#region_list02").append(strHTML);
+    			});
+                removeMarker();
+    		});
+
+    		//監聽鄉鎮區select
+    		$("#region_list02").change(function(item){
+    			var region_mask = []; //只記錄該區的口罩資料
+    			// console.log($(this).val());
+    			select_town = $(this).val();
+
+    			maskdata.forEach(function(item){	//判別縣市 鄉鎮區 是否都符合
+    				if(item.properties.county == select_city && item.properties.town == select_town){
+    					region_mask.push(item);
+    				}
+    			});
+    			// console.log(region_mask);
+    			$("#mask_group").empty();
+
+                //清空Marker歷史紀錄
+                removeMarker();
+
+    			region_mask.forEach(function(item,key){
+                    // console.log(key);
+	    			var strHTML = '<li class="list-group-item" data-name="'+item.properties.name+'" data-address="'+item.properties.address+'" data-phone="'+item.properties.phone+'" data-mask_adult="'+item.properties.mask_adult+'" data-mask_child="'+item.properties.mask_child+'" data-lat="'+item.geometry.coordinates[1]+'" data-lng="'+item.geometry.coordinates[0]+'"><p class="h2 font-weight-bold text-info">'+item.properties.name+'</p><p class="h5 text-secondary">地址:'+item.properties.address+'</p><p class="h5 text-primary">電話:'+item.properties.phone+'</p><p class="h5 text-danger">成人口罩:'+item.properties.mask_adult+'兒童口罩:'+item.properties.mask_child+'</p></li>';
+
+                    $("#mask_group").append(strHTML);
+
+                    //產生與地圖對應的Mark
+                    var lat = item["geometry"]["coordinates"][1];
+                    var lng = item["geometry"]["coordinates"][0];
+
+                    // L.marker([lat,lng]).addTo(map)
+                    //     .bindPopup('<div class="card" style="width: 18rem;"><div class="card-body"><h5 class="card-title text-center bg-info text-light">'+item.properties.name+'</h5><h6 class="card-title">地址:'+item.properties.address+'</h6><h6 class="card-subtitle mb-2 text-primary">電話:'+item.properties.phone+'</h6><h6 class="card-text text-danger">成人口罩:'+item.properties.mask_adult+'兒童口罩:'+item.properties.mask_child+'</h6></div></div>'); 
+
+                    //將Mark變成集合式，上方註解為一堆Mark
+                    var popupHtml='<div class="card" style="width: 18rem;"><div class="card-body"><h5 class="card-title text-center bg-info text-light">'+item.properties.name+'</h5><h6 class="card-title">地址:'+item.properties.address+'</h6><h6 class="card-subtitle mb-2 text-primary">電話:'+item.properties.phone+'</h6><h6 class="card-text text-danger">成人口罩:'+item.properties.mask_adult+'兒童口罩:'+item.properties.mask_child+'</h6></div></div>';
+
+                    if(item.properties.mask_adult>1500){
+                        markers.addLayer(L.marker([lat,lng],{icon:goldIcon}).bindPopup(popupHtml));
+                    }else if(1501>item.properties.mask_adult && item.properties.mask_adult>999){
+                        markers.addLayer(L.marker([lat,lng],{icon:blackIcon}).bindPopup(popupHtml));
+                    }else{
+                        markers.addLayer(L.marker([lat,lng],{icon:redIcon}).bindPopup(popupHtml))
+                    }
+
+                    // markers.addLayer(L.marker([lat,lng],{icon:blackIcon}).bindPopup(popupHtml));
+
+                    if(key == Math.round(region_mask.length/2)){ //取中間值
+                       map.panTo([lat,lng]); //移動至藥局最中間的座標
+                    }
+
+                    // 做法2
+                    //L.marker([item.geometry.coordinates[1],item.geometry.coordinates[0]]).addTo(map).bindPopup(item.properties.name).openPopup();
+                });
+
+                //監聽List group item
+                $("#mask_group .list-group-item").click("click",function(){
+                    console.log($(this).data("name"));
+                    console.log($(this).data("address"));
+                    console.log($(this).data("phone"));
+                    console.log($(this).data("mask_adult"));
+                    console.log($(this).data("mask_child"));
+                    console.log($(this).data("lat"));
+                    console.log($(this).data("lng"));
+                    markerPopup(($(this).data("name")),($(this).data("address")),($(this).data("phone")),($(this).data("mask_adult")),($(this).data("mask_child")),($(this).data("lat")),($(this).data("lng")));
+
+                    map.panTo([($(this).data("lat")),($(this).data("lng"))]);
+                });
+    		});
+    	});
+
+        //清除Marker
+        function removeMarker(){
+            map.eachLayer(function(layer){
+                if(layer instanceof L.Marker){
+                    map.removeLayer(layer);
+                }
+            });
+            markers.eachLayer(function(layer){//記憶體減輕的mvaker清除
+                if(layer instanceof L.Marker){
+                    markers.removeLayer(layer);
+                }
+            });
+        }
+
+        function markerPopup(name,address,phone,mask_adult,mask_child,lat,lng){
+            var popupHtml='<div class="card" style="width: 18rem;"><div class="card-body"><h5 class="card-title text-center bg-info text-light">'+name+'</h5><h6 class="card-title">地址:'+address+'</h6><h6 class="card-subtitle mb-2 text-primary">電話:'+phone+'</h6><h6 class="card-text text-danger">成人口罩:'+mask_adult+'兒童口罩:'+mask_child+'</h6></div></div>';
+            
+            L.marker([lat,lng]).addTo(map).bindPopup(popupHtml).openPopup();
+        }
+    </script>
+  </body>
+</html>

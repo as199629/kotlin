@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval"
+    android:useLevel="false" >
+    <!--• rectangle :矩形，默認的形狀，可以畫出直角矩形、圓角矩形、弧形等-->
+    <!--• oval :橢圓形，用得比較多的是畫正圓-->
+    <!--• line :線形，可以畫實線和虛線-->
+    <!--• ring :環形，可以畫環形進度條-->
+
+    <solid android:color="@color/Red" />
+    <!--solid :設置形狀填充的顏色，只有android:color一個屬性-->
+    <!--android:color填充的顏色-->
+
+    <padding
+        android:left="2sp"
+        android:top="1sp"
+        android:right="2sp"
+        android:bottom="1sp" />
+    <!--padding :設置內容與形狀邊界的內間距，可分別設置左右上下的距離-->
+    <!--android:left左內間距-->
+    <!--android:right右內間距-->
+    <!--android:top上內間距-->
+    <!--android:bottom下內間距-->
+
+    <stroke
+        android:width="3sp"
+        android:color="@color/Yellow" />
+    <size android:width="20sp"
+        android:height="20sp" />
+    <!--stroke :設置描邊，可描成實線或虛線。-->
+    <!--android:color描邊的顏色-->
+    <!--android:width描邊的寬度-->
+    <!--android:dashWidth設置虛線時的橫線長度-->
+    <!--android:dashGap設置虛線時的橫線之間的距離-->
+
+
+</shape>

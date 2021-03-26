@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">10.4電腦猜拳遊戲</string>
+    <string name="myName">23楊皓文</string>
+    <string name="action_settings">結束</string>
+    <string name="item01">顯示統計資料</string>
+    <string name="item02">完成遊戲</string>
+    <string name="item03">重新玩</string>
+</resources>
